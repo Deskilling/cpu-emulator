@@ -8,7 +8,7 @@ AllowShortFunctionsOnASingleLine: Inline
 AllowShortIfStatementsOnASingleLine: true
 AllowShortLoopsOnASingleLine: true
 
-ColumnLimit: 100
+ColumnLimit: 140
 
 PointerAlignment: Left
 AlignAfterOpenBracket: Align

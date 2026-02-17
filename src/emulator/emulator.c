@@ -1,8 +1,10 @@
+#include <stdint.h>
 #include <stdio.h>
-#include <string.h>
 #include <stdlib.h>
+#include <string.h>
 
 #include "emulator.h"
+#include "../util/file.h"
 
 void init_emulator(s_emulator* emu) {
 	if (emu == NULL) {
@@ -114,34 +116,64 @@ void exec_emulator(s_emulator* emu, uint16_t instr) {
 	emu->cpu.pc++;
 }
 
-uint8_t load_hex(const char* filename, s_emulator* emu) {
-	FILE* file = fopen(filename, "r");
-	if (file == NULL) {
-		return -1;
+void load_hex(const char* filename, s_emulator* emu) {
+	s_file f;
+	init_file(&f, (uint8_t)FILE_BUFFER_SIZE);
+
+	f.ptr = fopen(filename, "r");
+	if (f.ptr == NULL) {
+		fprintf(stderr, "Failed to open file\n");
+		return;
 	}
 
-	char buffer[1024];
-	if (fgets(buffer, sizeof(buffer), file) == NULL) {
-		fclose(file);
-		fprintf(stderr, "failed to open file");
-		return -1;
+	char c;
+	f.size = 0;
+	while ((c = fgetc(f.ptr)) != EOF) {
+		if (c != ' ' && c != '\n') {
+			f.size++;
+		}
+	}
+	rewind(f.ptr);
+
+	unsigned int max_hex_chars = PROGRAM_MEM_SIZE * 4;
+	if (f.size > max_hex_chars) {
+		fprintf(stderr, "Hex file is too large (max %u hex chars)\n", max_hex_chars);
+		fclose(f.ptr);
+		return;
 	}
 
-	fclose(file);
+	f.bufferIdx = 0;
+	while ((c = fgetc(f.ptr)) != EOF) {
+		if (c != ' ' && c != '\n') {
+			f.buffer[f.bufferIdx++] = c;
+		}
+	}
+	f.buffer[f.bufferIdx] = '\0';
+	fclose(f.ptr);
 
-	uint8_t len = strlen(buffer);
-	uint8_t count = 0;
+	char hex_str[5] = {0};
+	uint8_t hex_char_idx = 0;
 
-	for (int i = 0; i + 3 < len; i += 4) {
-		char instr_str[5] = {buffer[i], buffer[i + 1], buffer[i + 2], buffer[i + 3], '\0'};
-		emu->mem.program[count++] = (uint16_t)strtol(instr_str, NULL, 16);
+	for (uint8_t i = 0; i < f.bufferIdx; i++) {
+		if (hex_char_idx < 4) {
+			hex_str[hex_char_idx++] = f.buffer[i];
+		}
+		if (hex_char_idx == 4) {
+			emu->mem.program[emu->instrCnt++] = (uint16_t)strtol(hex_str, NULL, 16);
+			hex_char_idx = 0;
+		}
 	}
 
-	return count;
+	free(f.buffer);
+
+	if (hex_char_idx != 0) {
+		fprintf(stderr, "Incomplete instruction at end of file\n");
+		return;
+	}
 }
 
-void run_emulator(s_emulator* emu, uint8_t instr_count) {
-	while (emu->cpu.pc < instr_count) {
+void run_emulator(s_emulator* emu) {
+	while (emu->cpu.pc < emu->instrCnt) {
 		// printf("pc=%u instr=%04X\n", emu->cpu.pc, emu->mem.program[emu->cpu.pc]);
 		exec_emulator(emu, emu->mem.program[emu->cpu.pc]);
 		// print_reg(emu);

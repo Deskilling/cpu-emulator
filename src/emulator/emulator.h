@@ -32,13 +32,14 @@ typedef enum {
 typedef struct {
     s_cpu cpu;
     s_mem mem;
+    uint8_t instrCnt;
 }s_emulator;
 
 void init_emulator(s_emulator* emu);
 void free_emulator(s_emulator* emu);
 void exec_emulator(s_emulator* emu, uint16_t instr);
 
-uint8_t load_hex(const char* filename, s_emulator* emu);
-void run_emulator(s_emulator* emu, uint8_t instr_count);
+void load_hex(const char* filename, s_emulator* emu);
+void run_emulator(s_emulator* emu);
 
 #endif

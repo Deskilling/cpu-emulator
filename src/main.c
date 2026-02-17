@@ -2,7 +2,7 @@
 #include <string.h>
 
 #include "emulator/emulator.h"
-#include "util/file.h"
+#include "util/print.h"
 
 int main(int argc, char* argv[]) {
 	if (argc != 2) {
@@ -13,21 +13,18 @@ int main(int argc, char* argv[]) {
 	s_emulator emu = {0};
 	init_emulator(&emu);
 
-	int instr_count = load_hex(argv[1], &emu);
-	if (instr_count <= 0) {
+	load_hex(argv[1], &emu);
+	if (emu.instrCnt <= 0) {
 		fprintf(stderr, "failed to load program\n");
 		return -1;
 	}
 
-	// print_program(&emu);
+	print_program(&emu);
 
-	run_emulator(&emu, instr_count);
+	run_emulator(&emu);
 
-	// print_reg(&emu);
-	// print_mem(&emu);
-
-	save_reg(&emu);
-	save_mem(&emu);
+	print_reg(&emu);
+	print_mem(&emu);
 
 	free_emulator(&emu);
 	return 0;
