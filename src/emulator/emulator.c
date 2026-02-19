@@ -135,9 +135,9 @@ void load_hex(const char* filename, s_emulator* emu) {
 	}
 	rewind(f.ptr);
 
-	unsigned int max_hex_chars = PROGRAM_MEM_SIZE * 4;
-	if (f.size > max_hex_chars) {
-		fprintf(stderr, "Hex file is too large (max %u hex chars)\n", max_hex_chars);
+	unsigned int maxChars = PROGRAM_MEM_SIZE * 4;
+	if (f.size > maxChars) {
+		fprintf(stderr, "Hex file is too large (max %u hex chars)\n", maxChars);
 		fclose(f.ptr);
 		return;
 	}
@@ -151,22 +151,26 @@ void load_hex(const char* filename, s_emulator* emu) {
 	f.buffer[f.bufferIdx] = '\0';
 	fclose(f.ptr);
 
-	char hex_str[5] = {0};
-	uint8_t hex_char_idx = 0;
+	char hexStr[5] = {0};
+	uint8_t hexStrIdx = 0;
 
 	for (uint8_t i = 0; i < f.bufferIdx; i++) {
-		if (hex_char_idx < 4) {
-			hex_str[hex_char_idx++] = f.buffer[i];
+		if (hexStrIdx < 4) {
+			hexStr[hexStrIdx++] = f.buffer[i];
 		}
-		if (hex_char_idx == 4) {
-			emu->mem.program[emu->instrCnt++] = (uint16_t)strtol(hex_str, NULL, 16);
-			hex_char_idx = 0;
+		if (hexStrIdx == 4) {
+			emu->mem.program[emu->instrCnt++] = (uint16_t)strtol(hexStr, NULL, 16);
+			hexStrIdx = 0;
 		}
 	}
 
-	free(f.buffer);
+	if (f.bufferIdx > f.size) {
+		return;
+	}
 
-	if (hex_char_idx != 0) {
+	f.buffer = NULL;
+
+	if (hexStrIdx != 0) {
 		fprintf(stderr, "Incomplete instruction at end of file\n");
 		return;
 	}

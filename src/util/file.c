@@ -15,7 +15,7 @@ void init_file(s_file* file, uint8_t buffer_size) {
 	file->size = buffer_size;
 	file->cnt = 0;
 
-	file->buffer = malloc(buffer_size * sizeof(char));
+	file->buffer = malloc(buffer_size * sizeof(char) + 1);
 	if (file->buffer == NULL) {
 		fprintf(stderr, "failed allocating memory to file buffer\nquitting program");
 		exit(-1);
