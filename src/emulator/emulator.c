@@ -5,6 +5,7 @@
 
 #include "emulator.h"
 #include "../util/file.h"
+#include "../log/log.h"
 
 void init_emulator(s_emulator* emu) {
 	if (emu == NULL) {
@@ -129,7 +130,9 @@ void load_hex(const char* filename, s_emulator* emu) {
 	char c;
 	f.size = 0;
 	while ((c = fgetc(f.ptr)) != EOF) {
-		if (c != ' ' && c != '\n') {
+		if (c != ';') {
+			while ((c = fgetc(f.ptr)) != '\n' && c != EOF);
+		} else if (c != ' ' && c != '\n') {
 			f.size++;
 		}
 	}
@@ -144,7 +147,9 @@ void load_hex(const char* filename, s_emulator* emu) {
 
 	f.bufferIdx = 0;
 	while ((c = fgetc(f.ptr)) != EOF) {
-		if (c != ' ' && c != '\n') {
+		if (c == ';') {
+			while ((c = fgetc(f.ptr)) != '\n' && c != EOF);
+		} else if (c != ' ' && c != '\n') {
 			f.buffer[f.bufferIdx++] = c;
 		}
 	}
@@ -178,9 +183,6 @@ void load_hex(const char* filename, s_emulator* emu) {
 
 void run_emulator(s_emulator* emu) {
 	while (emu->cpu.pc < emu->instrCnt) {
-		// printf("pc=%u instr=%04X\n", emu->cpu.pc, emu->mem.program[emu->cpu.pc]);
 		exec_emulator(emu, emu->mem.program[emu->cpu.pc]);
-		// print_reg(emu);
-		// print_mem(emu);
 	}
 }

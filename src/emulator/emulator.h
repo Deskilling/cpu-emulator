@@ -11,29 +11,29 @@
 #define PROGRAM_MEM_SIZE 256
 
 typedef enum {
-    MOV_RN_ADDR = 0,
-    MOV_ADDR_RN = 1,
-    MOV_RN_READ_RM = 2,
-    MOV_READ_RN_RM = 3,
-    MOV_RN_LITERAL = 4,
-    MOV_RN_RM = 5,
-    ADD = 6,
-    SUB = 7,
-    MUL = 8,
-    DIV = 9,
-    AND = 10,
-    OR = 11,
-    JZ = 12,
-    CMP = 13,
-    LESS = 14,
-    NOP = 15
+	MOV_RN_ADDR = 0,
+	MOV_ADDR_RN = 1,
+	MOV_RN_READ_RM = 2,
+	MOV_READ_RN_RM = 3,
+	MOV_RN_LITERAL = 4,
+	MOV_RN_RM = 5,
+	ADD = 6,
+	SUB = 7,
+	MUL = 8,
+	DIV = 9,
+	AND = 10,
+	OR = 11,
+	JZ = 12,
+	CMP = 13,
+	LESS = 14,
+	NOP = 15
 } e_opcode;
 
 typedef struct {
-    s_cpu cpu;
-    s_mem mem;
-    uint8_t instrCnt;
-}s_emulator;
+	s_cpu cpu;
+	s_mem mem;
+	uint8_t instrCnt;
+} s_emulator;
 
 void init_emulator(s_emulator* emu);
 void free_emulator(s_emulator* emu);
