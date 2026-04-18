@@ -1,13 +1,14 @@
 PROJECT  := cpu-emulator
+
 BUILDDIR := build
 OBJDIR   := obj
 SRCDIR   := src
 
-CC      := gcc
-CFLAGS  := -std=c99 -Wall -Wextra -I. -MMD -MP
-LDFLAGS := -lm
+CC       := gcc
+CFLAGS   := -std=c99 -Wall -Wextra -I. -MMD -MP
+LDFLAGS  := -lm
 
-SRCS := $(wildcard $(SRCDIR)/**/*.c $(SRCDIR)/*.c)
+SRCS := $(shell find $(SRCDIR) -name "*.c")
 OBJS := $(SRCS:$(SRCDIR)/%.c=$(OBJDIR)/%.o)
 DEPS := $(OBJS:.o=.d)
 
@@ -17,13 +18,13 @@ TARGET := $(BUILDDIR)/$(PROJECT)
 
 all: $(TARGET)
 
-$(BUILDDIR) $(OBJDIR):
+$(BUILDDIR):
 	mkdir -p $@
 
-$(TARGET): $(BUILDDIR) $(OBJS)
+$(TARGET): $(OBJS) | $(BUILDDIR)
 	$(CC) -o $@ $(OBJS) $(LDFLAGS)
 
-$(OBJDIR)/%.o: $(SRCDIR)/%.c | $(OBJDIR)
+$(OBJDIR)/%.o: $(SRCDIR)/%.c
 	@mkdir -p $(dir $@)
 	$(CC) $(CFLAGS) -c $< -o $@
 
