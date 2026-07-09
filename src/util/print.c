@@ -50,4 +50,5 @@ void print_mem(s_emulator* emu) {
 			printf(" ");
 		}
 	}
+	printf("\n");
 }
