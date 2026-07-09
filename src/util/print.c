@@ -44,9 +44,10 @@ void print_mem(s_emulator* emu) {
 
 	for (int i = 0; i < DATA_MEM_SIZE; i++) {
 		printf("%02X", emu->mem->data[i]);
-		if ((i + 1) % 16 == 0)
+		if ((i + 1) % 16 == 0) {
 			printf("\n");
-		else
+		} else {
 			printf(" ");
+		}
 	}
 }
