@@ -5,7 +5,7 @@ UseTab: ForIndentation
 
 BreakBeforeBraces: Attach
 AllowShortFunctionsOnASingleLine: Inline
-AllowShortIfStatementsOnASingleLine: true
+AllowShortIfStatementsOnASingleLine: false
 AllowShortLoopsOnASingleLine: true
 
 ColumnLimit: 140

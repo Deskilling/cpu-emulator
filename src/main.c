@@ -2,10 +2,10 @@
 #include <string.h>
 
 #include "emulator/emulator.h"
-#include "util/print.h"
+#include "util/file.h"
 
 int main(int argc, char* argv[]) {
-	if (argc != 2) {
+	if (argc < 2) {
 		fprintf(stderr, "expected 1 argument (example.hex)");
 		return -1;
 	}
@@ -19,13 +19,13 @@ int main(int argc, char* argv[]) {
 		return -1;
 	}
 
-	print_program(&emu);
-
+	// print_program(&emu);
 	run_emulator(&emu);
 
-	print_reg(&emu);
-	print_mem(&emu);
-
+	save_reg(&emu);
+	save_mem(&emu);
+	// print_reg(&emu);
+	// print_mem(&emu);
 	free_emulator(&emu);
 	return 0;
 }
