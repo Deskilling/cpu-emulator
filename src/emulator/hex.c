@@ -9,7 +9,7 @@ void load_hex(const char* filename, s_emulator* emu) {
 	init_file(&f, (uint8_t)FILE_BUFFER_SIZE);
 
 	f.ptr = fopen(filename, "r");
-	if (f.ptr == NULL) {
+	if (!f.ptr) {
 		fprintf(stderr, "Failed to open file\n");
 		if (f.buffer) {
 			free(f.buffer);

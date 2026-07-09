@@ -4,7 +4,7 @@
 #include "../settings.h"
 
 void print_program(s_emulator* emu) {
-	if (emu == NULL) {
+	if (!emu) {
 		fprintf(stderr, "invalid emulator pointer\n");
 		return;
 	}
@@ -23,7 +23,7 @@ void print_program(s_emulator* emu) {
 }
 
 void print_reg(s_emulator* emu) {
-	if (emu == NULL) {
+	if (!emu) {
 		fprintf(stderr, "invalid emulator pointer\n");
 		return;
 	}
@@ -38,6 +38,10 @@ void print_reg(s_emulator* emu) {
 }
 
 void print_mem(s_emulator* emu) {
+	if (!emu) {
+		fprintf(stderr, "invalid emulator pointer\n");
+	}
+
 	for (int i = 0; i < DATA_MEM_SIZE; i++) {
 		printf("%02X", emu->mem->data[i]);
 		if ((i + 1) % 16 == 0)

@@ -7,7 +7,7 @@
 #include "../emulator/emulator.h"
 
 void init_file(s_file* file, uint8_t buffer_size) {
-	if (file == NULL) {
+	if (!file) {
 		fprintf(stderr, "invalid file pointer\nquitting program");
 		exit(-1);
 	}
@@ -17,7 +17,7 @@ void init_file(s_file* file, uint8_t buffer_size) {
 	file->cnt = 0;
 
 	file->buffer = malloc(buffer_size * sizeof(char) + 1);
-	if (file->buffer == NULL) {
+	if (!file->buffer) {
 		fprintf(stderr, "failed allocating memory to file buffer\nquitting program");
 		exit(-1);
 	}
@@ -25,13 +25,13 @@ void init_file(s_file* file, uint8_t buffer_size) {
 	memset(file->buffer, 0, buffer_size * sizeof(char) + 1);
 }
 void save_reg(s_emulator* emu) {
-	if (emu == NULL) {
+	if (!emu) {
 		fprintf(stderr, "invalid emulator pointer\n");
 		return;
 	}
 
 	FILE* file = fopen(".reg_dump.reg", "w");
-	if (file == NULL) {
+	if (!file) {
 		fprintf(stderr, "failed to open file");
 		return;
 	}
@@ -48,13 +48,13 @@ void save_reg(s_emulator* emu) {
 }
 
 void save_mem(s_emulator* emu) {
-	if (emu == NULL) {
+	if (!emu) {
 		fprintf(stderr, "invalid emulator pointer\n");
 		return;
 	}
 
 	FILE* file = fopen(".mem_dump.mem", "w");
-	if (file == NULL) {
+	if (!file) {
 		fprintf(stderr, "failed to open file");
 		return;
 	}

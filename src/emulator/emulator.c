@@ -9,7 +9,7 @@
 #include <string.h>
 
 void init_emulator(s_emulator* emu) {
-	if (emu == NULL) {
+	if (!emu) {
 		fprintf(stderr, "invalid emulator pointer\nquitting program");
 		exit(-1);
 	}
@@ -34,7 +34,7 @@ void init_emulator(s_emulator* emu) {
 }
 
 void free_emulator(s_emulator* emu) {
-	if (emu == NULL) {
+	if (!emu) {
 		fprintf(stderr, "invalid emulator pointer\nquitting program");
 		exit(-1);
 	}
@@ -47,7 +47,7 @@ void free_emulator(s_emulator* emu) {
 }
 
 void exec_emulator(s_emulator* emu, uint16_t instr) {
-	if (emu == NULL) {
+	if (!emu) {
 		fprintf(stderr, "invalid emulator pointer\nquitting program");
 		exit(-1);
 	}
