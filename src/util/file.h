@@ -8,15 +8,15 @@
 #define FILE_BUFFER_SIZE 1024
 
 typedef struct {
-    FILE* ptr;
-    uint8_t size;
-    uint8_t cnt;
-    char*  buffer;
-    uint8_t bufferIdx;
+	FILE* ptr;
+	uint16_t size;
+	uint8_t cnt;
+	char* buffer;
+	uint16_t bufferIdx;
 } s_file;
 
 void save_reg(s_emulator* emu);
 void save_mem(s_emulator* emu);
-void init_file(s_file* file, uint8_t buffer_size);
+void init_file(s_file* file, uint16_t buffer_size);
 
 #endif

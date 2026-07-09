@@ -6,7 +6,7 @@
 #include "../settings.h"
 #include "../emulator/emulator.h"
 
-void init_file(s_file* file, uint8_t buffer_size) {
+void init_file(s_file* file, uint16_t buffer_size) {
 	if (!file) {
 		fprintf(stderr, "invalid file pointer\nquitting program");
 		exit(-1);

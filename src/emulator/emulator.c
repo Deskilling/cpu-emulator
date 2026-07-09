@@ -2,7 +2,6 @@
 #include "../settings.h"
 #include "src/hardware/cpu.h"
 #include "src/hardware/mem.h"
-#include "../log/log.h"
 
 #include <stdint.h>
 #include <stdio.h>

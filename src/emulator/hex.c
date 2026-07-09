@@ -6,7 +6,7 @@
 
 void load_hex(const char* filename, s_emulator* emu) {
 	s_file f;
-	init_file(&f, (uint8_t)FILE_BUFFER_SIZE);
+	init_file(&f, FILE_BUFFER_SIZE);
 
 	f.ptr = fopen(filename, "r");
 	if (!f.ptr) {
