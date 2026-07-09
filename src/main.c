@@ -16,6 +16,7 @@ int main(int argc, char* argv[]) {
 	load_hex(argv[1], &emu);
 	if (emu.instrCnt <= 0) {
 		fprintf(stderr, "failed to load program\n");
+		free_emulator(&emu);
 		return -1;
 	}
 

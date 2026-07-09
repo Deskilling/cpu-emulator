@@ -3,6 +3,7 @@
 #include <string.h>
 
 #include "file.h"
+#include "../settings.h"
 #include "../emulator/emulator.h"
 
 void init_file(s_file* file, uint8_t buffer_size) {
@@ -21,7 +22,7 @@ void init_file(s_file* file, uint8_t buffer_size) {
 		exit(-1);
 	}
 
-	memset(file->buffer, 0, buffer_size * sizeof(char));
+	memset(file->buffer, 0, buffer_size * sizeof(char) + 1);
 }
 void save_reg(s_emulator* emu) {
 	if (emu == NULL) {
@@ -36,7 +37,7 @@ void save_reg(s_emulator* emu) {
 	}
 
 	for (int i = 0; i < REGISTER_COUNT; i++) {
-		fprintf(file, "%02X", emu->cpu.reg[i]);
+		fprintf(file, "%02X", emu->cpu->reg[i]);
 		if (i < REGISTER_COUNT - 1) {
 			fprintf(file, " ");
 		}
@@ -59,7 +60,7 @@ void save_mem(s_emulator* emu) {
 	}
 
 	for (int i = 0; i < DATA_MEM_SIZE; i++) {
-		fprintf(file, "%02X", emu->mem.data[i]);
+		fprintf(file, "%02X", emu->mem->data[i]);
 
 		if ((i + 1) % 16 == 0)
 			fprintf(file, "\n");

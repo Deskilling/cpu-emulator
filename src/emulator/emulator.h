@@ -6,10 +6,6 @@
 #include "../hardware/cpu.h"
 #include "../hardware/mem.h"
 
-#define REGISTER_COUNT 16
-#define DATA_MEM_SIZE 256
-#define PROGRAM_MEM_SIZE 256
-
 typedef enum {
 	MOV_RN_ADDR = 0,
 	MOV_ADDR_RN = 1,
@@ -30,8 +26,8 @@ typedef enum {
 } e_opcode;
 
 typedef struct {
-	s_cpu cpu;
-	s_mem mem;
+	s_cpu* cpu;
+	s_mem* mem;
 	uint8_t instrCnt;
 } s_emulator;
 
