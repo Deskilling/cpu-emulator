@@ -2,6 +2,7 @@
 #include "../settings.h"
 #include "src/hardware/cpu.h"
 #include "src/hardware/mem.h"
+#include "../log/log.h"
 
 #include <stdint.h>
 #include <stdio.h>
@@ -120,6 +121,9 @@ void exec_emulator(s_emulator* emu, uint16_t instr) {
 
 void run_emulator(s_emulator* emu) {
 	while (emu->cpu->pc < emu->instrCnt) {
+#ifdef DEBUG
+		printf("pc=%u instr=%02X\n", emu->cpu->pc, emu->mem->program[emu->cpu->pc]);
+#endif
 		exec_emulator(emu, emu->mem->program[emu->cpu->pc]);
 	}
 }

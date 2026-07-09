@@ -1,7 +1,9 @@
+#include "log.h"
+
 #include <stdio.h>
 #include <stdarg.h>
 
-#include "../globals.h"
+#include "../settings.h"
 
 void log_debug(const char* format, ...) {
 	if (!DEBUG) {
