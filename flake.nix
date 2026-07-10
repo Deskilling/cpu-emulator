@@ -23,6 +23,7 @@
           buildInputs = with pkgs; [
             gcc
             gnumake
+            xmake
             clang-tools
           ];
         };

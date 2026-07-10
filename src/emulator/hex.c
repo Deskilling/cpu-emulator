@@ -1,6 +1,6 @@
 #include "emulator.h"
-#include "../settings.h"
-#include "../util/file.h"
+#include "settings.h"
+#include "file.h"
 
 #include <stdlib.h>
 

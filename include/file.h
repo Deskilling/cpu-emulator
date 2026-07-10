@@ -3,7 +3,7 @@
 
 #include <stdio.h>
 
-#include "../emulator/emulator.h"
+#include "emulator.h"
 
 #define FILE_BUFFER_SIZE 1024
 

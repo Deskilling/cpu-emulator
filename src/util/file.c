@@ -3,12 +3,12 @@
 #include <string.h>
 
 #include "file.h"
-#include "../settings.h"
-#include "../emulator/emulator.h"
+#include "settings.h"
+#include "emulator.h"
 
 void init_file(s_file* file, uint16_t buffer_size) {
 	if (!file) {
-		fprintf(stderr, "invalid file pointer\nquitting program");
+		fprintf(stderr, "invalid file pointer\n");
 		exit(-1);
 	}
 
@@ -18,7 +18,7 @@ void init_file(s_file* file, uint16_t buffer_size) {
 
 	file->buffer = malloc(buffer_size * sizeof(char) + 1);
 	if (!file->buffer) {
-		fprintf(stderr, "failed allocating memory to file buffer\nquitting program");
+		fprintf(stderr, "failed allocating memory to file buffer\n");
 		exit(-1);
 	}
 
@@ -32,7 +32,7 @@ void save_reg(s_emulator* emu) {
 
 	FILE* file = fopen(".reg_dump.reg", "w");
 	if (!file) {
-		fprintf(stderr, "failed to open file");
+		fprintf(stderr, "failed to open file\n");
 		return;
 	}
 
@@ -55,7 +55,7 @@ void save_mem(s_emulator* emu) {
 
 	FILE* file = fopen(".mem_dump.mem", "w");
 	if (!file) {
-		fprintf(stderr, "failed to open file");
+		fprintf(stderr, "failed to open file\n");
 		return;
 	}
 

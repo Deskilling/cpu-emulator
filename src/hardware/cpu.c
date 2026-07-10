@@ -1,5 +1,5 @@
 #include "cpu.h"
-#include "../settings.h"
+#include "settings.h"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -7,7 +7,7 @@
 
 int init_cpu(s_cpu* cpu) {
 	if (!cpu) {
-		fprintf(stderr, "invalid cpu pointer in init");
+		fprintf(stderr, "invalid cpu pointer in init\n");
 		return 0;
 	}
 
@@ -15,7 +15,7 @@ int init_cpu(s_cpu* cpu) {
 
 	cpu->reg = malloc(REGISTER_COUNT * sizeof(uint8_t));
 	if (!cpu->reg) {
-		fprintf(stderr, "failed allocating cpu->reg");
+		fprintf(stderr, "failed allocating cpu->reg\n");
 		return 0;
 	}
 
@@ -26,7 +26,7 @@ int init_cpu(s_cpu* cpu) {
 
 void free_cpu(s_cpu* cpu) {
 	if (!cpu) {
-		fprintf(stderr, "invalid cpu pointer in free");
+		fprintf(stderr, "invalid cpu pointer in free\n");
 		return;
 	}
 

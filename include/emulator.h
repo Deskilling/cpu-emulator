@@ -3,8 +3,8 @@
 
 #include <stdint.h>
 
-#include "../hardware/cpu.h"
-#include "../hardware/mem.h"
+#include "cpu.h"
+#include "mem.h"
 
 typedef enum {
 	MOV_RN_ADDR = 0,

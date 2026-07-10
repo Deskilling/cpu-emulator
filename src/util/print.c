@@ -1,7 +1,7 @@
-#include <stdio.h>
-
 #include "print.h"
-#include "../settings.h"
+#include "settings.h"
+
+#include <stdio.h>
 
 void print_program(s_emulator* emu) {
 	if (!emu) {

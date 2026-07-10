@@ -1,5 +1,5 @@
 #include "mem.h"
-#include "../settings.h"
+#include "settings.h"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -7,19 +7,19 @@
 
 int init_mem(s_mem* mem) {
 	if (!mem) {
-		fprintf(stderr, "invalid mem pointer in init");
+		fprintf(stderr, "invalid mem pointer in init\n");
 		return 0;
 	}
 
 	mem->data = malloc(DATA_MEM_SIZE * sizeof(uint8_t));
 	if (!mem->data) {
-		fprintf(stderr, "failed allocating mem->data");
+		fprintf(stderr, "failed allocating mem->data\n");
 		return 0;
 	}
 
 	mem->program = malloc(PROGRAM_MEM_SIZE * sizeof(uint16_t));
 	if (!mem->program) {
-		fprintf(stderr, "failed allocating mem->program");
+		fprintf(stderr, "failed allocating mem->program\n");
 		return 0;
 	}
 
@@ -31,7 +31,7 @@ int init_mem(s_mem* mem) {
 
 void free_mem(s_mem* mem) {
 	if (!mem) {
-		fprintf(stderr, "invalid mem pointer in free");
+		fprintf(stderr, "invalid mem pointer in free\n");
 		return;
 	}
 

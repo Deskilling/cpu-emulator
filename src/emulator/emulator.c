@@ -1,7 +1,7 @@
 #include "emulator.h"
-#include "../settings.h"
-#include "src/hardware/cpu.h"
-#include "src/hardware/mem.h"
+#include "settings.h"
+#include "cpu.h"
+#include "mem.h"
 
 #include <stdint.h>
 #include <stdio.h>
@@ -10,7 +10,7 @@
 
 void init_emulator(s_emulator* emu) {
 	if (!emu) {
-		fprintf(stderr, "invalid emulator pointer\nquitting program");
+		fprintf(stderr, "invalid emulator pointer\n");
 		exit(-1);
 	}
 
@@ -35,7 +35,7 @@ void init_emulator(s_emulator* emu) {
 
 void free_emulator(s_emulator* emu) {
 	if (!emu) {
-		fprintf(stderr, "invalid emulator pointer\nquitting program");
+		fprintf(stderr, "invalid emulator pointer\n");
 		exit(-1);
 	}
 
@@ -48,7 +48,7 @@ void free_emulator(s_emulator* emu) {
 
 void exec_emulator(s_emulator* emu, uint16_t instr) {
 	if (!emu) {
-		fprintf(stderr, "invalid emulator pointer\nquitting program");
+		fprintf(stderr, "invalid emulator pointer\n");
 		exit(-1);
 	}
 
@@ -111,7 +111,7 @@ void exec_emulator(s_emulator* emu, uint16_t instr) {
 	case NOP:
 		break;
 	default:
-		fprintf(stderr, "opcode %u not found\nquitting program", opcode);
+		fprintf(stderr, "opcode %u not found\n", opcode);
 		exit(-1);
 	}
 

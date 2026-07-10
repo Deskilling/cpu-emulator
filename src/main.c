@@ -1,12 +1,12 @@
 #include <stdio.h>
 #include <string.h>
 
-#include "emulator/emulator.h"
-#include "util/file.h"
+#include "emulator.h"
+#include "file.h"
 
 int main(int argc, char* argv[]) {
 	if (argc < 2) {
-		fprintf(stderr, "expected 1 argument (example.hex)");
+		fprintf(stderr, "expected 1 argument (example.hex)\n");
 		return -1;
 	}
 
