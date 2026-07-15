@@ -32,6 +32,15 @@ void build_rm(char* hexStr, s_token* dest, s_token* src, char opcode) {
 	hexStr[4] = '\0';
 }
 
+void build_mr_reverse(char* hexStr, s_token* dest, s_token* src, char opcode) {
+	hexStr[0] = opcode;
+	hexStr[1] = src->value[1];
+	char* padded = pad_hex(dest->value);
+	hexStr[2] = padded[0];
+	hexStr[3] = padded[1];
+	hexStr[4] = '\0';
+}
+
 void build_mr(char* hexStr, s_token* dest, s_token* src, char opcode) {
 	hexStr[0] = opcode;
 	char* padded = pad_hex(dest->value);
@@ -62,7 +71,7 @@ void assemble(s_token* tokens, const char* output_file) {
 
 	static const s_InstructionPattern patterns[] = {
 	    {.name = "MOV", .opcode = '0', .builder = build_rm, .dest_type = TOKEN_REGISTER, .src_type = TOKEN_MEMORY},
-	    {.name = "MOV", .opcode = '1', .builder = build_mr, .dest_type = TOKEN_MEMORY, .src_type = TOKEN_REGISTER},
+	    {.name = "MOV", .opcode = '1', .builder = build_mr_reverse, .dest_type = TOKEN_MEMORY, .src_type = TOKEN_REGISTER},
 	    // TODO dafür muss ich beim lexer noch stuff ändern
 	    //{.name = "MOV", .opcode = '2', .builder = build_mr, .dest_type = TOKEN_REGISTER, .src_type = TOKEN_REGISTER},
 	    //{.name = "MOV", .opcode = '3', .builder = build_mr, .dest_type = TOKEN_REGISTER, .src_type = TOKEN_REGISTER},

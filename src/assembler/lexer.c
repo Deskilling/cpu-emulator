@@ -21,8 +21,10 @@ e_TokenType convert_token(char* buffer) {
 		}
 	}
 
-	if (buffer[0] == '#') {
-		memmove(buffer, buffer + 1, len);
+	if (buffer[0] == '#' || isxdigit(buffer[0]) || buffer[0] == '-') {
+		if (buffer[0] == '#') {
+			memmove(buffer, buffer + 1, len);
+		}
 		return TOKEN_IMMEDIATE;
 	}
 
@@ -30,7 +32,8 @@ e_TokenType convert_token(char* buffer) {
 		return TOKEN_REGISTER;
 	}
 
-	if (buffer[0] >= '0' && buffer[0] <= 'F') {
+	if (buffer[0] == 'M' && buffer[1] >= '0' && buffer[1] <= 'F') {
+		memmove(buffer, buffer + 1, len);
 		return TOKEN_MEMORY;
 	}
 
