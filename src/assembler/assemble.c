@@ -84,7 +84,7 @@ void assemble(s_token* tokens, const char* output_file) {
 	    {.name = "AND", .opcode = 'A', .builder = build_rr, .dest_type = TOKEN_REGISTER, .src_type = TOKEN_REGISTER},
 	    {.name = "OR", .opcode = 'B', .builder = build_rr, .dest_type = TOKEN_REGISTER, .src_type = TOKEN_REGISTER},
 	    {.name = "JZ", .opcode = 'C', .builder = build_ri, .dest_type = TOKEN_REGISTER, .src_type = TOKEN_IMMEDIATE},
-	    {.name = "CMP", .opcode = 'D', .builder = build_ri, .dest_type = TOKEN_REGISTER, .src_type = TOKEN_REGISTER},
+	    {.name = "CMP", .opcode = 'D', .builder = build_rr, .dest_type = TOKEN_REGISTER, .src_type = TOKEN_REGISTER},
 	    {.name = "LESS", .opcode = 'E', .builder = build_ri, .dest_type = TOKEN_REGISTER, .src_type = TOKEN_REGISTER},
 	    {.name = "NOP", .opcode = 'F', .builder = NULL, .dest_type = 0, .src_type = 0}};
 
