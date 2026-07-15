@@ -78,9 +78,6 @@ s_token* lexer(FILE* file) {
 				char* value = malloc(strlen(buffer) * sizeof(char) + 1);
 				strcpy(value, buffer);
 				s_token* tok = create_token(type, value);
-				if (value != NULL) {
-					free(value);
-				}
 
 				if (!head)
 					head = tail = tok;
