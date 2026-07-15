@@ -4,6 +4,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <stdint.h>
 
 #define BUFFER 16
 
@@ -74,7 +75,12 @@ s_token* lexer(FILE* file) {
 			if (bufferIdx > 0) {
 				buffer[bufferIdx] = '\0';
 				e_TokenType type = convert_token(buffer);
-				s_token* tok = create_token(type, strdup(buffer));
+				char* value = malloc(strlen(buffer) * sizeof(char) + 1);
+				strcpy(value, buffer);
+				s_token* tok = create_token(type, value);
+				if (value != NULL) {
+					free(value);
+				}
 
 				if (!head)
 					head = tail = tok;
