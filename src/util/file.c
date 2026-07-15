@@ -16,6 +16,9 @@ void init_file(s_file* file, uint16_t buffer_size) {
 	file->size = buffer_size;
 	file->cnt = 0;
 
+	file->size = 0;
+	file->valid_size = 0;
+
 	file->buffer = malloc(buffer_size * sizeof(char) + 1);
 	if (!file->buffer) {
 		fprintf(stderr, "failed allocating memory to file buffer\n");
@@ -24,6 +27,7 @@ void init_file(s_file* file, uint16_t buffer_size) {
 
 	memset(file->buffer, 0, buffer_size * sizeof(char) + 1);
 }
+
 void save_reg(s_emulator* emu) {
 	if (!emu) {
 		fprintf(stderr, "invalid emulator pointer\n");

@@ -2,9 +2,15 @@
 #include "settings.h"
 #include "file.h"
 
+#include <stdio.h>
 #include <stdlib.h>
 
 void load_hex(const char* filename, s_emulator* emu) {
+	if (!emu) {
+		fprintf(stderr, "invalid emulator pointer in load_hex");
+		exit(-1);
+	}
+
 	s_file f;
 	init_file(&f, FILE_BUFFER_SIZE);
 
@@ -19,18 +25,21 @@ void load_hex(const char* filename, s_emulator* emu) {
 	}
 
 	char c;
-	f.size = 0;
 	while ((c = fgetc(f.ptr)) != EOF) {
+		f.size++;
 		if (c == ';') {
 			while ((c = fgetc(f.ptr)) != '\n' && c != EOF);
 		} else if (c != ' ' && c != '\n') {
-			f.size++;
+			f.valid_size++;
 		}
 	}
 	rewind(f.ptr);
 
+	printf("program size: %u\n", f.valid_size);
+	printf("full size: %u\n", f.size);
+
 	unsigned int maxChars = PROGRAM_MEM_SIZE * 4;
-	if (f.size > maxChars) {
+	if (f.valid_size > maxChars) {
 		fprintf(stderr, "Hex file is too large (max %u hex chars)\n", maxChars);
 		fclose(f.ptr);
 
@@ -65,13 +74,9 @@ void load_hex(const char* filename, s_emulator* emu) {
 		}
 	}
 
-	if (f.bufferIdx > f.size) {
+	if (f.buffer) {
 		free(f.buffer);
-		f.buffer = NULL;
-		return;
 	}
-
-	free(f.buffer);
 	f.buffer = NULL;
 
 	if (hexStrIdx != 0) {

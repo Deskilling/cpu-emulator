@@ -10,6 +10,7 @@
 typedef struct {
 	FILE* ptr;
 	uint16_t size;
+	uint16_t valid_size;
 	uint8_t cnt;
 	char* buffer;
 	uint16_t bufferIdx;

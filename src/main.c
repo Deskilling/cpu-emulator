@@ -13,6 +13,9 @@ int main(int argc, char* argv[]) {
 	s_emulator emu = {0};
 	init_emulator(&emu);
 
+	load_asm(argv[1], &emu);
+	return 0;
+
 	load_hex(argv[1], &emu);
 	if (emu.instrCnt <= 0) {
 		fprintf(stderr, "failed to load program\n");
