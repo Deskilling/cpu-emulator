@@ -7,4 +7,4 @@ ADD R4, R0  ; i++
 MOV R5, R1
 LESS R5, R4 ; 10 < i
 JZ R5, 251  ; -5 + 256
-MOV 0, R3   ; sum -> mem
+MOV M0, R3   ; sum -> mem

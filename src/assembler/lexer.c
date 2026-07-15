@@ -61,7 +61,10 @@ s_token* lexer(FILE* file) {
 
 	char c;
 	while ((c = fgetc(file)) != EOF) {
-		if (isspace(c) || c == ';' || c == ',') {
+		if (c == ';') {
+			while ((c = fgetc(file)) != '\n' && c != EOF);
+		}
+		if (isspace(c) || c == ',') {
 			if (bufferIdx > 0) {
 				buffer[bufferIdx] = '\0';
 				e_TokenType type = convert_token(buffer);

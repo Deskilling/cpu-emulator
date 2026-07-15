@@ -1,0 +1,4 @@
+MOV R0, #21
+MOV R1, #15
+SUB R0, R1
+MOV M0, R0

@@ -1,0 +1,4 @@
+MOV R0, #1
+MOV R1, #0
+OR R0, R1
+MOV M0, R0

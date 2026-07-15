@@ -18,4 +18,4 @@
 D760  ; CMP R7, R6
 C7F8  ; JZ R7, -8
 
-1200 ; MOV R2, data[0]
+1200 ; MOV data[0], R0

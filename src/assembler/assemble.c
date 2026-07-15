@@ -85,7 +85,7 @@ void assemble(s_token* tokens, const char* output_file) {
 	    {.name = "OR", .opcode = 'B', .builder = build_rr, .dest_type = TOKEN_REGISTER, .src_type = TOKEN_REGISTER},
 	    {.name = "JZ", .opcode = 'C', .builder = build_ri, .dest_type = TOKEN_REGISTER, .src_type = TOKEN_IMMEDIATE},
 	    {.name = "CMP", .opcode = 'D', .builder = build_rr, .dest_type = TOKEN_REGISTER, .src_type = TOKEN_REGISTER},
-	    {.name = "LESS", .opcode = 'E', .builder = build_ri, .dest_type = TOKEN_REGISTER, .src_type = TOKEN_REGISTER},
+	    {.name = "LESS", .opcode = 'E', .builder = build_rr, .dest_type = TOKEN_REGISTER, .src_type = TOKEN_REGISTER},
 	    {.name = "NOP", .opcode = 'F', .builder = NULL, .dest_type = 0, .src_type = 0}};
 
 	for (s_token* t = tokens; t != NULL; t = t->next) {

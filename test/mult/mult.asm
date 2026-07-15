@@ -1,4 +1,4 @@
 MOV R0, #15
-MOV R1, #1
-ADD R0, R1
+MOV R1, #2
+MUL R0, R1
 MOV M0, R0

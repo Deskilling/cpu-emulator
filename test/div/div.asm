@@ -1,0 +1,4 @@
+MOV R0, #20
+MOV R1, #5
+DIV R0, R1
+MOV M0, R0
