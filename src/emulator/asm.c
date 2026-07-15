@@ -26,5 +26,7 @@ void load_asm(const char* filename, s_emulator* emu) {
 
 	s_token* tokens = lexer(f.ptr);
 	assemble(tokens, "test.hex");
+	free_tokens(tokens);
+
 	load_hex("test.hex", emu);
 }

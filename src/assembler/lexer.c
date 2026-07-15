@@ -124,3 +124,17 @@ void print_tokens(s_token* head) {
 		printf("%s: %s\n", token_type_to_string(t->type), t->value);
 	}
 }
+
+void free_tokens(s_token* head) {
+	s_token* current = head;
+	while (current != NULL) {
+		s_token* next = current->next;
+		if (current->value) {
+			free(current->value);
+		}
+		current->value = NULL;
+
+		free(current);
+		current = next;
+	}
+}

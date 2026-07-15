@@ -32,6 +32,8 @@ void print_tokens(s_token* head);
 const char* token_type_to_string(e_TokenType type);
 
 s_token* lexer(FILE* file);
+void free_tokens(s_token* head);
+
 void assemble(s_token* tokens, const char* fileName);
 
 #endif
