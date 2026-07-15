@@ -25,16 +25,22 @@ e_TokenType convert_token(char* buffer) {
 		if (buffer[0] == '#') {
 			memmove(buffer, buffer + 1, len);
 		}
-		return TOKEN_IMMEDIATE;
+		return TOKEN_LITERAL;
 	}
 
-	if ((buffer[0] == 'R' && len > 1 && isxdigit(buffer[1])) || (len == 1 && (buffer[0] == 'A' || buffer[0] == 'B'))) {
+	if ((buffer[0] == 'R' && buffer[1] >= '0' && buffer[1] <= 'F')) {
 		return TOKEN_REGISTER;
 	}
 
 	if (buffer[0] == 'M' && buffer[1] >= '0' && buffer[1] <= 'F') {
 		memmove(buffer, buffer + 1, len);
 		return TOKEN_MEMORY;
+	}
+
+	if ((buffer[0] == '@' && buffer[1] == 'R' && buffer[2] >= '0' && buffer[2] <= 'F')) {
+		memmove(buffer, buffer + 1, len);
+
+		return TOKEN_MEMORY_REGISTER;
 	}
 
 	return TOKEN_EOF;
@@ -100,10 +106,12 @@ const char* token_type_to_string(e_TokenType type) {
 		return "REGISTER";
 	case TOKEN_MEMORY:
 		return "MEMORY";
-	case TOKEN_IMMEDIATE:
-		return "IMMEDIATE";
+	case TOKEN_LITERAL:
+		return "LITERAL";
 	case TOKEN_LABEL:
 		return "LABEL";
+	case TOKEN_MEMORY_REGISTER:
+		return "MEMORY REGISTER";
 	case TOKEN_EOF:
 		return "EOF";
 	default:

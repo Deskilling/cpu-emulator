@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 
 #include "emulator.h"
@@ -13,10 +14,24 @@ int main(int argc, char* argv[]) {
 	s_emulator emu = {0};
 	init_emulator(&emu);
 
-	load_asm(argv[1], &emu);
-	return 0;
+	char* filename = argv[1];
+	char* ext = strrchr(filename, '.');
+	printf("extension: %s\n", ext);
 
-	load_hex(argv[1], &emu);
+	if (ext != NULL) {
+		if (strcmp(ext, ".hex") == 0) {
+			load_hex(argv[1], &emu);
+		} else if (strcmp(ext, ".asm") == 0) {
+			load_asm(argv[1], &emu);
+		} else {
+			printf("unknown\n");
+			exit(-1);
+		}
+	} else {
+		printf("no extension\n");
+		exit(-1);
+	}
+
 	if (emu.instrCnt <= 0) {
 		fprintf(stderr, "failed to load program\n");
 		free_emulator(&emu);

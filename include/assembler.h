@@ -7,9 +7,10 @@ typedef enum {
 	TOKEN_INSTRUCTION = 0,
 	TOKEN_REGISTER = 1,
 	TOKEN_MEMORY = 2,
-	TOKEN_IMMEDIATE = 3,
+	TOKEN_LITERAL = 3,
 	TOKEN_LABEL = 4,
-	TOKEN_EOF = 5,
+	TOKEN_MEMORY_REGISTER = 5,
+	TOKEN_EOF = 6,
 } e_TokenType;
 
 typedef struct {

@@ -72,10 +72,9 @@ void assemble(s_token* tokens, const char* output_file) {
 	static const s_InstructionPattern patterns[] = {
 	    {.name = "MOV", .opcode = '0', .builder = build_rm, .dest_type = TOKEN_REGISTER, .src_type = TOKEN_MEMORY},
 	    {.name = "MOV", .opcode = '1', .builder = build_mr_reverse, .dest_type = TOKEN_MEMORY, .src_type = TOKEN_REGISTER},
-	    // TODO dafür muss ich beim lexer noch stuff ändern
-	    //{.name = "MOV", .opcode = '2', .builder = build_mr, .dest_type = TOKEN_REGISTER, .src_type = TOKEN_REGISTER},
-	    //{.name = "MOV", .opcode = '3', .builder = build_mr, .dest_type = TOKEN_REGISTER, .src_type = TOKEN_REGISTER},
-	    {.name = "MOV", .opcode = '4', .builder = build_ri, .dest_type = TOKEN_REGISTER, .src_type = TOKEN_IMMEDIATE},
+	    {.name = "MOV", .opcode = '2', .builder = build_mr, .dest_type = TOKEN_REGISTER, .src_type = TOKEN_MEMORY_REGISTER},
+	    {.name = "MOV", .opcode = '3', .builder = build_mr, .dest_type = TOKEN_MEMORY_REGISTER, .src_type = TOKEN_REGISTER},
+	    {.name = "MOV", .opcode = '4', .builder = build_ri, .dest_type = TOKEN_REGISTER, .src_type = TOKEN_LITERAL},
 	    {.name = "MOV", .opcode = '5', .builder = build_rr, .dest_type = TOKEN_REGISTER, .src_type = TOKEN_REGISTER},
 	    {.name = "ADD", .opcode = '6', .builder = build_rr, .dest_type = TOKEN_REGISTER, .src_type = TOKEN_REGISTER},
 	    {.name = "SUB", .opcode = '7', .builder = build_rr, .dest_type = TOKEN_REGISTER, .src_type = TOKEN_REGISTER},
@@ -83,7 +82,7 @@ void assemble(s_token* tokens, const char* output_file) {
 	    {.name = "DIV", .opcode = '9', .builder = build_rr, .dest_type = TOKEN_REGISTER, .src_type = TOKEN_REGISTER},
 	    {.name = "AND", .opcode = 'A', .builder = build_rr, .dest_type = TOKEN_REGISTER, .src_type = TOKEN_REGISTER},
 	    {.name = "OR", .opcode = 'B', .builder = build_rr, .dest_type = TOKEN_REGISTER, .src_type = TOKEN_REGISTER},
-	    {.name = "JZ", .opcode = 'C', .builder = build_ri, .dest_type = TOKEN_REGISTER, .src_type = TOKEN_IMMEDIATE},
+	    {.name = "JZ", .opcode = 'C', .builder = build_ri, .dest_type = TOKEN_REGISTER, .src_type = TOKEN_LITERAL},
 	    {.name = "CMP", .opcode = 'D', .builder = build_rr, .dest_type = TOKEN_REGISTER, .src_type = TOKEN_REGISTER},
 	    {.name = "LESS", .opcode = 'E', .builder = build_rr, .dest_type = TOKEN_REGISTER, .src_type = TOKEN_REGISTER},
 	    {.name = "NOP", .opcode = 'F', .builder = NULL, .dest_type = 0, .src_type = 0}};
