@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "print.h"
 #include "emulator.h"
 #include "file.h"
 
@@ -38,7 +39,7 @@ int main(int argc, char* argv[]) {
 		return -1;
 	}
 
-	// print_program(&emu);
+	print_program(&emu);
 	run_emulator(&emu);
 
 	save_reg(&emu);

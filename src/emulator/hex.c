@@ -2,6 +2,7 @@
 #include "settings.h"
 #include "file.h"
 
+#include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -38,7 +39,7 @@ void load_hex(const char* filename, s_emulator* emu) {
 	printf("program size: %u\n", f.valid_size);
 	printf("full size: %u\n", f.size);
 
-	unsigned int maxChars = PROGRAM_MEM_SIZE * 4;
+	unsigned int maxChars = PROGRAM_MEM_SIZE * 8;
 	if (f.valid_size > maxChars) {
 		fprintf(stderr, "Hex file is too large (max %u hex chars)\n", maxChars);
 		fclose(f.ptr);
@@ -61,15 +62,15 @@ void load_hex(const char* filename, s_emulator* emu) {
 	f.buffer[f.bufferIdx] = '\0';
 	fclose(f.ptr);
 
-	char hexStr[5] = {0};
-	uint8_t hexStrIdx = 0;
+	char hexStr[9] = {0};
+	uint16_t hexStrIdx = 0;
 
-	for (uint8_t i = 0; i < f.bufferIdx; i++) {
-		if (hexStrIdx < 4) {
+	for (uint16_t i = 0; i < f.bufferIdx; i++) {
+		if (hexStrIdx < 8) {
 			hexStr[hexStrIdx++] = f.buffer[i];
 		}
-		if (hexStrIdx == 4) {
-			emu->mem->program[emu->instrCnt++] = (uint16_t)strtol(hexStr, NULL, 16);
+		if (hexStrIdx == 8) {
+			emu->mem->program[emu->instrCnt++] = (uint32_t)strtoul(hexStr, NULL, 16) >> 8;
 			hexStrIdx = 0;
 		}
 	}

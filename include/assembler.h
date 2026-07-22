@@ -2,6 +2,7 @@
 #define PARSERS_H
 
 #include <stdio.h>
+#include <sys/_types/_u_int16_t.h>
 
 typedef enum {
 	TOKEN_INSTRUCTION = 0,
@@ -22,8 +23,8 @@ typedef struct {
 
 typedef struct {
 	const char* name;
-	char opcode;
-	void (*builder)(char*, s_token*, s_token*, char);
+	char* opcode;
+	void (*builder)(char*, s_token*, s_token*, char*);
 	e_TokenType dest_type;
 	e_TokenType src_type;
 } s_InstructionPattern;

@@ -7,7 +7,7 @@ typedef struct {
 	// Datenspeicher
 	uint8_t* data;
 	// Programmspeicher
-	uint16_t* program;
+	uint32_t* program;
 } s_mem;
 
 int init_mem(s_mem* mem);

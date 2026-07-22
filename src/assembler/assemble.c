@@ -15,51 +15,71 @@ char* pad_hex(const char* val) {
 	return (char*)val;
 }
 
-void build_rr(char* hexStr, s_token* dest, s_token* src, char opcode) {
-	hexStr[0] = opcode;
-	hexStr[1] = dest->value[1];
-	hexStr[2] = src->value[1];
-	hexStr[3] = '0';
-	hexStr[4] = '\0';
+void build_rr(char* hexStr, s_token* dest, s_token* src, char* opcode) {
+	hexStr[0] = opcode[0];
+	hexStr[1] = opcode[1];
+	hexStr[2] = '0';
+	hexStr[3] = dest->value[1];
+	hexStr[4] = '0';
+	hexStr[5] = src->value[1];
+	hexStr[6] = '0';
+	hexStr[7] = '0';
+	hexStr[8] = '\0';
 }
 
-void build_rm(char* hexStr, s_token* dest, s_token* src, char opcode) {
-	hexStr[0] = opcode;
-	hexStr[1] = dest->value[1];
+void build_rm(char* hexStr, s_token* dest, s_token* src, char* opcode) {
+	hexStr[0] = opcode[0];
+	hexStr[1] = opcode[1];
+	hexStr[2] = '0';
+	hexStr[3] = dest->value[1];
 	char* padded = pad_hex(src->value);
-	hexStr[2] = padded[0];
-	hexStr[3] = padded[1];
-	hexStr[4] = '\0';
+	hexStr[4] = padded[0];
+	hexStr[5] = padded[1];
+	hexStr[6] = '0';
+	hexStr[7] = '0';
+	hexStr[8] = '\0';
 }
 
-void build_mr_reverse(char* hexStr, s_token* dest, s_token* src, char opcode) {
-	hexStr[0] = opcode;
-	hexStr[1] = src->value[1];
-	char* padded = pad_hex(dest->value);
-	hexStr[2] = padded[0];
-	hexStr[3] = padded[1];
-	hexStr[4] = '\0';
-}
-
-void build_mr(char* hexStr, s_token* dest, s_token* src, char opcode) {
-	hexStr[0] = opcode;
-	char* padded = pad_hex(dest->value);
-	hexStr[1] = padded[0];
-	hexStr[2] = padded[1];
+void build_mr_reverse(char* hexStr, s_token* dest, s_token* src, char* opcode) {
+	hexStr[0] = opcode[0];
+	hexStr[1] = opcode[1];
+	hexStr[2] = '0';
 	hexStr[3] = src->value[1];
-	hexStr[4] = '\0';
+	char* padded = pad_hex(dest->value);
+	hexStr[4] = padded[0];
+	hexStr[5] = padded[1];
+	hexStr[6] = '0';
+	hexStr[7] = '0';
+	hexStr[8] = '\0';
 }
 
-void build_ri(char* hexStr, s_token* dest, s_token* src, char opcode) {
-	hexStr[0] = opcode;
-	hexStr[1] = dest->value[1];
+void build_mr(char* hexStr, s_token* dest, s_token* src, char* opcode) {
+	hexStr[0] = opcode[0];
+	hexStr[1] = opcode[1];
+	char* padded = pad_hex(dest->value);
+	hexStr[2] = padded[0];
+	hexStr[3] = padded[1];
+	hexStr[4] = '0';
+	hexStr[5] = src->value[1];
+	hexStr[6] = '0';
+	hexStr[7] = '0';
+	hexStr[8] = '\0';
+}
+
+void build_ri(char* hexStr, s_token* dest, s_token* src, char* opcode) {
+	hexStr[0] = opcode[0];
+	hexStr[1] = opcode[1];
+	hexStr[2] = '0';
+	hexStr[3] = dest->value[1];
 	int value = atoi(src->value);
 	uint8_t byte_val = (uint8_t)value;
 	char hex[3];
 	sprintf(hex, "%02X", byte_val);
-	hexStr[2] = hex[0];
-	hexStr[3] = hex[1];
-	hexStr[4] = '\0';
+	hexStr[4] = hex[0];
+	hexStr[5] = hex[1];
+	hexStr[6] = '0';
+	hexStr[7] = '0';
+	hexStr[8] = '\0';
 }
 
 void assemble(s_token* tokens, const char* output_file) {
@@ -70,22 +90,22 @@ void assemble(s_token* tokens, const char* output_file) {
 	}
 
 	static const s_InstructionPattern patterns[] = {
-	    {.name = "MOV", .opcode = '0', .builder = build_rm, .dest_type = TOKEN_REGISTER, .src_type = TOKEN_MEMORY},
-	    {.name = "MOV", .opcode = '1', .builder = build_mr_reverse, .dest_type = TOKEN_MEMORY, .src_type = TOKEN_REGISTER},
-	    {.name = "MOV", .opcode = '2', .builder = build_mr, .dest_type = TOKEN_REGISTER, .src_type = TOKEN_MEMORY_REGISTER},
-	    {.name = "MOV", .opcode = '3', .builder = build_mr, .dest_type = TOKEN_MEMORY_REGISTER, .src_type = TOKEN_REGISTER},
-	    {.name = "MOV", .opcode = '4', .builder = build_ri, .dest_type = TOKEN_REGISTER, .src_type = TOKEN_LITERAL},
-	    {.name = "MOV", .opcode = '5', .builder = build_rr, .dest_type = TOKEN_REGISTER, .src_type = TOKEN_REGISTER},
-	    {.name = "ADD", .opcode = '6', .builder = build_rr, .dest_type = TOKEN_REGISTER, .src_type = TOKEN_REGISTER},
-	    {.name = "SUB", .opcode = '7', .builder = build_rr, .dest_type = TOKEN_REGISTER, .src_type = TOKEN_REGISTER},
-	    {.name = "MUL", .opcode = '8', .builder = build_rr, .dest_type = TOKEN_REGISTER, .src_type = TOKEN_REGISTER},
-	    {.name = "DIV", .opcode = '9', .builder = build_rr, .dest_type = TOKEN_REGISTER, .src_type = TOKEN_REGISTER},
-	    {.name = "AND", .opcode = 'A', .builder = build_rr, .dest_type = TOKEN_REGISTER, .src_type = TOKEN_REGISTER},
-	    {.name = "OR", .opcode = 'B', .builder = build_rr, .dest_type = TOKEN_REGISTER, .src_type = TOKEN_REGISTER},
-	    {.name = "JZ", .opcode = 'C', .builder = build_ri, .dest_type = TOKEN_REGISTER, .src_type = TOKEN_LITERAL},
-	    {.name = "CMP", .opcode = 'D', .builder = build_rr, .dest_type = TOKEN_REGISTER, .src_type = TOKEN_REGISTER},
-	    {.name = "LESS", .opcode = 'E', .builder = build_rr, .dest_type = TOKEN_REGISTER, .src_type = TOKEN_REGISTER},
-	    {.name = "NOP", .opcode = 'F', .builder = NULL, .dest_type = 0, .src_type = 0}};
+	    {.name = "MOV", .opcode = "00", .builder = build_rm, .dest_type = TOKEN_REGISTER, .src_type = TOKEN_MEMORY},
+	    {.name = "MOV", .opcode = "01", .builder = build_mr_reverse, .dest_type = TOKEN_MEMORY, .src_type = TOKEN_REGISTER},
+	    {.name = "MOV", .opcode = "02", .builder = build_mr, .dest_type = TOKEN_REGISTER, .src_type = TOKEN_MEMORY_REGISTER},
+	    {.name = "MOV", .opcode = "03", .builder = build_mr, .dest_type = TOKEN_MEMORY_REGISTER, .src_type = TOKEN_REGISTER},
+	    {.name = "MOV", .opcode = "04", .builder = build_ri, .dest_type = TOKEN_REGISTER, .src_type = TOKEN_LITERAL},
+	    {.name = "MOV", .opcode = "05", .builder = build_rr, .dest_type = TOKEN_REGISTER, .src_type = TOKEN_REGISTER},
+	    {.name = "ADD", .opcode = "06", .builder = build_rr, .dest_type = TOKEN_REGISTER, .src_type = TOKEN_REGISTER},
+	    {.name = "SUB", .opcode = "07", .builder = build_rr, .dest_type = TOKEN_REGISTER, .src_type = TOKEN_REGISTER},
+	    {.name = "MUL", .opcode = "08", .builder = build_rr, .dest_type = TOKEN_REGISTER, .src_type = TOKEN_REGISTER},
+	    {.name = "DIV", .opcode = "09", .builder = build_rr, .dest_type = TOKEN_REGISTER, .src_type = TOKEN_REGISTER},
+	    {.name = "AND", .opcode = "0A", .builder = build_rr, .dest_type = TOKEN_REGISTER, .src_type = TOKEN_REGISTER},
+	    {.name = "OR", .opcode = "0B", .builder = build_rr, .dest_type = TOKEN_REGISTER, .src_type = TOKEN_REGISTER},
+	    {.name = "JZ", .opcode = "0C", .builder = build_ri, .dest_type = TOKEN_REGISTER, .src_type = TOKEN_LITERAL},
+	    {.name = "CMP", .opcode = "0D", .builder = build_rr, .dest_type = TOKEN_REGISTER, .src_type = TOKEN_REGISTER},
+	    {.name = "LESS", .opcode = "0E", .builder = build_rr, .dest_type = TOKEN_REGISTER, .src_type = TOKEN_REGISTER},
+	    {.name = "NOP", .opcode = "0F", .builder = NULL, .dest_type = 0, .src_type = 0}};
 
 	for (s_token* t = tokens; t != NULL; t = t->next) {
 		// TODO gerade nur instruktions halt, aber rest gommt später
@@ -104,7 +124,7 @@ void assemble(s_token* tokens, const char* output_file) {
 		int matched = 0;
 		for (int i = 0; patterns[i].name; i++) {
 			if (strcmp(t->value, patterns[i].name) == 0 && dest->type == patterns[i].dest_type && src->type == patterns[i].src_type) {
-				char hexStr[5];
+				char hexStr[9] = {0};
 				patterns[i].builder(hexStr, dest, src, patterns[i].opcode);
 				fprintf(out, "%s\n", hexStr);
 				matched = 1;

@@ -39,23 +39,28 @@ void free_emulator(s_emulator* emu) {
 		exit(-1);
 	}
 
-	free_cpu(emu->cpu);
+	if (emu->cpu) {
+		free_cpu(emu->cpu);
+		free(emu->cpu);
+	}
 	emu->cpu = NULL;
 
-	free_mem(emu->mem);
+	if (emu->mem) {
+		free_mem(emu->mem);
+		free(emu->mem);
+	}
 	emu->mem = NULL;
 }
 
-void exec_emulator(s_emulator* emu, uint16_t instr) {
+void exec_emulator(s_emulator* emu, uint32_t instr) {
 	if (!emu) {
 		fprintf(stderr, "invalid emulator pointer\n");
 		exit(-1);
 	}
 
-	e_opcode opcode = (instr >> 12) & 0xF;
+	e_opcode opcode = (instr >> 16) & 0xFF;
 	uint8_t rn = (instr >> 8) & 0xF;
-	uint8_t rm = instr & 0xFF;
-	uint8_t rm_reg = rm >> 4;
+	uint16_t rm = instr & 0xFFF;
 	uint8_t rm_addr = rm & 0xFF;
 
 	switch (opcode) {
@@ -66,47 +71,47 @@ void exec_emulator(s_emulator* emu, uint16_t instr) {
 		emu->mem->data[rm_addr] = emu->cpu->reg[rn];
 		break;
 	case MOV_RN_READ_RM:
-		emu->cpu->reg[rn] = emu->mem->data[emu->cpu->reg[rm_reg % REGISTER_COUNT]];
+		emu->cpu->reg[rn] = emu->mem->data[emu->cpu->reg[rm_addr % REGISTER_COUNT]];
 		break;
 	case MOV_READ_RN_RM:
-		emu->mem->data[emu->cpu->reg[rn] % 256] = emu->cpu->reg[rm_reg % REGISTER_COUNT];
+		emu->mem->data[emu->cpu->reg[rn] % 256] = emu->cpu->reg[rm_addr % REGISTER_COUNT];
 		break;
 	case MOV_RN_LITERAL:
 		emu->cpu->reg[rn] = rm_addr;
 		break;
 	case MOV_RN_RM:
-		emu->cpu->reg[rn] = emu->cpu->reg[rm_reg % REGISTER_COUNT];
+		emu->cpu->reg[rn] = emu->cpu->reg[rm_addr % REGISTER_COUNT];
 		break;
 	case ADD:
-		emu->cpu->reg[rn] += emu->cpu->reg[rm_reg % REGISTER_COUNT];
+		emu->cpu->reg[rn] += emu->cpu->reg[rm_addr % REGISTER_COUNT];
 		break;
 	case SUB:
-		emu->cpu->reg[rn] -= emu->cpu->reg[rm_reg % REGISTER_COUNT];
+		emu->cpu->reg[rn] -= emu->cpu->reg[rm_addr % REGISTER_COUNT];
 		break;
 	case MUL:
-		emu->cpu->reg[rn] *= emu->cpu->reg[rm_reg % REGISTER_COUNT];
+		emu->cpu->reg[rn] *= emu->cpu->reg[rm_addr % REGISTER_COUNT];
 		break;
 	case DIV:
-		if (emu->cpu->reg[rm_reg % REGISTER_COUNT] != 0) {
-			emu->cpu->reg[rn] /= emu->cpu->reg[rm_reg % REGISTER_COUNT];
+		if (emu->cpu->reg[rm_addr % REGISTER_COUNT] != 0) {
+			emu->cpu->reg[rn] /= emu->cpu->reg[rm_addr % REGISTER_COUNT];
 		}
 		break;
 	case AND:
-		emu->cpu->reg[rn] &= emu->cpu->reg[rm_reg % REGISTER_COUNT];
+		emu->cpu->reg[rn] &= emu->cpu->reg[rm_addr % REGISTER_COUNT];
 		break;
 	case OR:
-		emu->cpu->reg[rn] |= emu->cpu->reg[rm_reg % REGISTER_COUNT];
+		emu->cpu->reg[rn] |= emu->cpu->reg[rm_addr % REGISTER_COUNT];
 		break;
 	case JZ:
 		if (emu->cpu->reg[rn] == 0) {
-			emu->cpu->pc += rm_addr;
+			emu->cpu->pc += (int8_t)rm_addr;
 		}
 		break;
 	case CMP:
-		emu->cpu->reg[rn] = (emu->cpu->reg[rn] == emu->cpu->reg[rm_reg % REGISTER_COUNT]);
+		emu->cpu->reg[rn] = (emu->cpu->reg[rn] == emu->cpu->reg[rm_addr % REGISTER_COUNT]);
 		break;
 	case LESS:
-		emu->cpu->reg[rn] = (emu->cpu->reg[rn] < emu->cpu->reg[rm_reg % REGISTER_COUNT]);
+		emu->cpu->reg[rn] = (emu->cpu->reg[rn] < emu->cpu->reg[rm_addr % REGISTER_COUNT]);
 		break;
 	case NOP:
 		break;
@@ -121,7 +126,7 @@ void exec_emulator(s_emulator* emu, uint16_t instr) {
 void run_emulator(s_emulator* emu) {
 	while (emu->cpu->pc < emu->instrCnt) {
 #ifdef DEBUG
-		printf("pc=%u instr=%02X\n", emu->cpu->pc, emu->mem->program[emu->cpu->pc]);
+		printf("pc=%u instr=%u\n", emu->cpu->pc, emu->mem->program[emu->cpu->pc]);
 #endif
 		exec_emulator(emu, emu->mem->program[emu->cpu->pc]);
 	}

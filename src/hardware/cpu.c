@@ -13,13 +13,13 @@ int init_cpu(s_cpu* cpu) {
 
 	cpu->pc = 0;
 
-	cpu->reg = malloc(REGISTER_COUNT * sizeof(uint8_t));
+	cpu->reg = malloc(REGISTER_COUNT * sizeof(*cpu->reg));
 	if (!cpu->reg) {
 		fprintf(stderr, "failed allocating cpu->reg\n");
 		return 0;
 	}
 
-	memset(cpu->reg, 0, REGISTER_COUNT * sizeof(uint8_t));
+	memset(cpu->reg, 0, REGISTER_COUNT * sizeof(*cpu->reg));
 
 	return 1;
 }

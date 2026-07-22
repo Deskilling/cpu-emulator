@@ -13,7 +13,6 @@ void init_file(s_file* file, uint16_t buffer_size) {
 	}
 
 	file->ptr = NULL;
-	file->size = buffer_size;
 	file->cnt = 0;
 
 	file->size = 0;

@@ -33,7 +33,7 @@ typedef struct {
 
 void init_emulator(s_emulator* emu);
 void free_emulator(s_emulator* emu);
-void exec_emulator(s_emulator* emu, uint16_t instr);
+void exec_emulator(s_emulator* emu, uint32_t instr);
 
 void load_hex(const char* filename, s_emulator* emu);
 void load_asm(const char* filename, s_emulator* emu);

@@ -11,20 +11,20 @@ int init_mem(s_mem* mem) {
 		return 0;
 	}
 
-	mem->data = malloc(DATA_MEM_SIZE * sizeof(uint8_t));
+	mem->data = malloc(DATA_MEM_SIZE * sizeof(*mem->data));
 	if (!mem->data) {
 		fprintf(stderr, "failed allocating mem->data\n");
 		return 0;
 	}
 
-	mem->program = malloc(PROGRAM_MEM_SIZE * sizeof(uint16_t));
+	mem->program = malloc(PROGRAM_MEM_SIZE * sizeof(*mem->program));
 	if (!mem->program) {
 		fprintf(stderr, "failed allocating mem->program\n");
 		return 0;
 	}
 
-	memset(mem->data, 0, DATA_MEM_SIZE * sizeof(uint8_t));
-	memset(mem->program, 0, PROGRAM_MEM_SIZE * sizeof(uint16_t));
+	memset(mem->data, 0, DATA_MEM_SIZE * sizeof(*mem->data));
+	memset(mem->program, 0, PROGRAM_MEM_SIZE * sizeof(*mem->program));
 
 	return 1;
 }

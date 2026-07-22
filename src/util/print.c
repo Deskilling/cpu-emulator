@@ -10,7 +10,7 @@ void print_program(s_emulator* emu) {
 	}
 
 	for (int i = 0; i < PROGRAM_MEM_SIZE; i++) {
-		printf("%04X", emu->mem->program[i]);
+		printf("%08u", emu->mem->program[i]);
 
 		if ((i + 1) % 16 == 0) {
 			printf("\n");
