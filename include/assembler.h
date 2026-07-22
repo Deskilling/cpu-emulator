@@ -2,7 +2,6 @@
 #define PARSERS_H
 
 #include <stdio.h>
-#include <sys/_types/_u_int16_t.h>
 
 typedef enum {
 	TOKEN_INSTRUCTION = 0,
