@@ -28,5 +28,11 @@ void load_asm(const char* filename, s_emulator* emu) {
 	assemble(tokens, "test.hex");
 	free_tokens(tokens);
 
+	fclose(f.ptr);
+	if (f.buffer) {
+		free(f.buffer);
+	}
+	f.buffer = NULL;
+
 	load_hex("test.hex", emu);
 }
